@@ -29,6 +29,7 @@ class ChatbotReply:
     probability: float | None = None
     action: str | None = None
     url: str | None = None
+    prompt: str | None = None
 
 
 def ensure_nltk_data() -> None:
@@ -152,6 +153,8 @@ class ChatbotEngine:
             ("/time", "Show the current time."),
             ("/date", "Show today's date."),
             ("/search <query>", "Open a Google search for a topic."),
+            ("/image <prompt>", "Generate an image with AI."),
+            ("/analyze <question>", "Choose a device image and predict its contents."),
             ("/clear", "Clear the conversation in the UI."),
             ("/save", "Save the current conversation in the UI."),
             ("/name <name>", "Update the profile name in the UI."),
@@ -219,6 +222,25 @@ class ChatbotEngine:
             url = f"https://www.google.com/search?q={query.replace(' ', '+')}"
             return ChatbotReply(f"I opened a web search for: {query}", action="open_url", url=url)
 
+        if normalized == "/image":
+            return ChatbotReply("Type a description after /image. Example: /image a city at sunset.")
+
+        if normalized.startswith("/image "):
+            prompt = text.split(" ", 1)[1].strip()
+            return ChatbotReply(
+                f"Generating an image for: {prompt}",
+                action="generate_image",
+                prompt=prompt,
+            )
+
+        if normalized == "/analyze" or normalized.startswith("/analyze "):
+            question = text.split(" ", 1)[1].strip() if " " in text else ""
+            return ChatbotReply(
+                "Choose an image from your device and I will predict what it contains.",
+                action="analyze_image",
+                prompt=question,
+            )
+
         return self.get_response(self.predict_class(text))
 
 
@@ -237,9 +259,17 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train or run the NLP chatbot.")
     parser.add_argument("--train", action="store_true", help="Retrain the TensorFlow model.")
     parser.add_argument("--epochs", type=int, default=200, help="Training epochs.")
+    parser.add_argument("--cli", action="store_true", help="Run the chatbot in the terminal.")
+    parser.add_argument("--host", default="127.0.0.1", help="Host for the local web app.")
+    parser.add_argument("--port", type=int, default=8000, help="Port for the local web app.")
+    parser.add_argument("--no-browser", action="store_true", help="Start the web app without opening a browser.")
     args = parser.parse_args()
 
     if args.train:
         train_model(epochs=args.epochs)
-    else:
+    elif args.cli:
         interactive_chat()
+    else:
+        from web_app import run_web_app
+
+        run_web_app(host=args.host, port=args.port, open_browser=not args.no_browser)

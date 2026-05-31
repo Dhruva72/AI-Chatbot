@@ -1,0 +1,6 @@
+google-genai
+nltk
+numpy
+protobuf>=6.31.1,<7.0.0
+python-dotenv
+tensorflow

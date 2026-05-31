@@ -1,9 +1,11 @@
 import datetime as dt
+import threading
 import webbrowser
 from pathlib import Path
 import tkinter as tk
 from tkinter import filedialog, messagebox, scrolledtext, ttk
 
+from ai_image_service import AIImageService
 from main import ChatbotEngine
 
 
@@ -16,6 +18,10 @@ class ChatbotProfileUI:
         self.user_name = tk.StringVar(value="User")
         self.status_text = tk.StringVar(value="Loading chatbot...")
         self.conversation_history: list[tuple[str, str]] = []
+        self.ai_service: AIImageService | None = None
+        self.ai_busy = False
+        self.ai_buttons: list[ttk.Button] = []
+        self.generated_image_refs: list[tk.PhotoImage] = []
 
         self.configure_window()
         self.build_layout()
@@ -113,6 +119,11 @@ class ChatbotProfileUI:
 
         actions = ttk.Frame(chat_panel, style="Panel.TFrame")
         actions.grid(row=3, column=0, sticky="ew", pady=(10, 0))
+        generate_button = ttk.Button(actions, text="Generate Image", command=self.generate_image_from_input)
+        generate_button.pack(side=tk.LEFT, padx=(0, 8))
+        analyze_button = ttk.Button(actions, text="Upload & Predict", command=lambda: self.send_message("/analyze"))
+        analyze_button.pack(side=tk.LEFT, padx=(0, 8))
+        self.ai_buttons.extend([generate_button, analyze_button])
         ttk.Button(actions, text="Clear Chat", command=self.clear_chat).pack(side=tk.LEFT, padx=(0, 8))
         ttk.Button(actions, text="Save Chat", command=self.save_chat).pack(side=tk.LEFT, padx=(0, 8))
         ttk.Button(actions, text="Help", command=lambda: self.send_message("/help")).pack(side=tk.LEFT)
@@ -171,6 +182,16 @@ class ChatbotProfileUI:
             self.user_input.insert(0, "/search ")
             self.user_input.focus_set()
             return
+        if "<prompt>" in command:
+            self.user_input.delete(0, tk.END)
+            self.user_input.insert(0, "/image ")
+            self.user_input.focus_set()
+            return
+        if "<question>" in command:
+            self.user_input.delete(0, tk.END)
+            self.user_input.insert(0, "/analyze ")
+            self.user_input.focus_set()
+            return
         self.send_message(command)
 
     def send_message(self, preset_message: str | None = None) -> None:
@@ -209,6 +230,108 @@ class ChatbotProfileUI:
 
         if reply.action == "open_url" and reply.url:
             webbrowser.open(reply.url)
+        elif reply.action == "generate_image" and reply.prompt:
+            self.start_image_generation(reply.prompt)
+        elif reply.action == "analyze_image":
+            self.choose_and_analyze_image(reply.prompt or "")
+
+    def generate_image_from_input(self) -> None:
+        prompt = self.user_input.get().strip()
+        if prompt.lower().startswith("/image "):
+            self.send_message(prompt)
+            return
+        if not prompt:
+            messagebox.showinfo("Describe an Image", "Type an image description in the message box first.")
+            self.user_input.focus_set()
+            return
+        self.send_message(f"/image {prompt}")
+
+    def get_ai_service(self) -> AIImageService:
+        if self.ai_service is None:
+            self.ai_service = AIImageService()
+        return self.ai_service
+
+    def run_ai_task(self, status: str, worker, on_success) -> None:
+        if self.ai_busy:
+            messagebox.showinfo("AI Image Tool", "Wait for the current AI image task to finish.")
+            return
+        self.ai_busy = True
+        for button in self.ai_buttons:
+            button.configure(state=tk.DISABLED)
+        self.status_text.set(status)
+
+        def run() -> None:
+            try:
+                result = worker()
+            except Exception as exc:
+                error_message = str(exc)
+                self.root.after(0, lambda: self.finish_ai_task(error=error_message))
+                return
+            self.root.after(0, lambda: self.finish_ai_task(result=result, on_success=on_success))
+
+        threading.Thread(target=run, daemon=True).start()
+
+    def finish_ai_task(self, result=None, on_success=None, error: str | None = None) -> None:
+        self.ai_busy = False
+        for button in self.ai_buttons:
+            button.configure(state=tk.NORMAL)
+        self.status_text.set("Ready. Choose a command or ask a question.")
+        if error:
+            self.add_bot_message(error)
+            messagebox.showerror("AI Image Tool", error)
+            return
+        if on_success:
+            on_success(result)
+
+    def start_image_generation(self, prompt: str) -> None:
+        self.run_ai_task(
+            "Generating your image...",
+            lambda: self.get_ai_service().generate_image(prompt),
+            self.show_generated_image,
+        )
+
+    def show_generated_image(self, generated_image) -> None:
+        message = f"{generated_image.message}\nSaved to: {generated_image.path}"
+        self.add_bot_message(message)
+        self.conversation_history.append(("[Generated image]", message))
+        try:
+            image = tk.PhotoImage(file=str(generated_image.path))
+            scale = max(1, (max(image.width(), image.height()) + 419) // 420)
+            if scale > 1:
+                image = image.subsample(scale, scale)
+            self.generated_image_refs.append(image)
+            self.chat_history.configure(state=tk.NORMAL)
+            self.chat_history.image_create(tk.END, image=image)
+            self.chat_history.insert(tk.END, "\n\n")
+            self.chat_history.see(tk.END)
+            self.chat_history.configure(state=tk.DISABLED)
+        except tk.TclError:
+            self.add_meta_message("Preview is unavailable, but the generated image was saved.")
+
+    def choose_and_analyze_image(self, question: str = "") -> None:
+        image_path = filedialog.askopenfilename(
+            title="Choose an image to predict",
+            filetypes=[
+                ("Supported images", "*.png *.jpg *.jpeg *.webp *.heic *.heif"),
+                ("All files", "*.*"),
+            ],
+        )
+        if not image_path:
+            self.add_meta_message("Image prediction cancelled.")
+            return
+
+        selected_path = Path(image_path)
+        self.add_meta_message(f"Selected device image: {selected_path.name}")
+        self.run_ai_task(
+            "Predicting the uploaded image...",
+            lambda: self.get_ai_service().analyze_image(selected_path, question),
+            lambda prediction: self.show_image_prediction(selected_path, prediction),
+        )
+
+    def show_image_prediction(self, image_path: Path, prediction: str) -> None:
+        message = f"Prediction for {image_path.name}:\n{prediction}"
+        self.add_bot_message(message)
+        self.conversation_history.append((f"[Device image] {image_path.name}", prediction))
 
     def add_user_message(self, message: str) -> None:
         self.append_chat("You", message, "user")
