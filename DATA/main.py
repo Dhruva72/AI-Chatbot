@@ -185,7 +185,21 @@ class ChatbotEngine:
         self.words      = self._load_pickle(WORDS_FILE)
         self.classes    = self._load_pickle(CLASSES_FILE)
         self.model      = self._load_model()
-        self.sentiment  = SentimentAnalyzer()          # ← NEW
+        # Sentiment: initialise with graceful fallback so the bot never crashes
+        # even if vaderSentiment is missing or the analyser fails to load.
+        try:
+            self.sentiment = SentimentAnalyzer()
+        except Exception as exc:
+            import warnings
+            warnings.warn(
+                f"SentimentAnalyzer could not be initialised ({exc}). "
+                "Sentiment features will be disabled for this session.",
+                RuntimeWarning,
+                stacklevel=2,
+            )
+            self.sentiment = SentimentAnalyzer.__new__(SentimentAnalyzer)
+            self.sentiment.available = False
+            self.sentiment._vader = None
 
     # ------------------------------------------------------------------
     # Loaders
@@ -314,8 +328,14 @@ class ChatbotEngine:
                 f"Today is {dt.datetime.now().strftime('%A, %d %B %Y')}."
             )
 
-        # ---- /mood  (NEW) ------------------------------------------------
+        # ---- /mood  -------------------------------------------------------
         if normalized in {"/mood", "mood", "my mood", "my sentiment"}:
+            if not getattr(self.sentiment, "available", False):
+                return ChatbotReply(
+                    "Sentiment analysis is currently unavailable. "
+                    "Please ensure vaderSentiment is installed "
+                    "(pip install vaderSentiment) and restart the chatbot."
+                )
             result = self.sentiment.analyze(text)
             return ChatbotReply(
                 f"I detected your mood as **{result.label}** "
@@ -324,7 +344,6 @@ class ChatbotEngine:
                 f"(−1 = very negative, +1 = very positive)",
                 sentiment=result,
             )
-
         # ---- bye ---------------------------------------------------------
         if normalized in {"exit", "quit", "bye", "/bye"}:
             return ChatbotReply(

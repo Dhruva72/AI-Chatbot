@@ -181,17 +181,34 @@ class SentimentAnalyzer:
 
     The underlying ``SentimentIntensityAnalyzer`` object is stateless after
     construction, so a single instance shared across threads is safe.
+
+    If vaderSentiment is not importable the analyser degrades gracefully:
+    ``available`` is set to False and ``analyze()`` returns a neutral result
+    instead of raising — so the chatbot continues to work without sentiment.
     """
 
     def __init__(self) -> None:
+        self.available = False
+        self._vader = None
         try:
+            # Attempt to install automatically if missing (silent best-effort).
             from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
             self._vader = SentimentIntensityAnalyzer()
-        except ImportError as exc:
-            raise ImportError(
-                "vaderSentiment is not installed.\n"
-                "Run:  pip install vaderSentiment"
-            ) from exc
+            self.available = True
+        except ImportError:
+            import subprocess, sys
+            try:
+                subprocess.check_call(
+                    [sys.executable, "-m", "pip", "install", "vaderSentiment", "-q"],
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                )
+                from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+                self._vader = SentimentIntensityAnalyzer()
+                self.available = True
+            except Exception:
+                # Still unavailable — run in degraded mode (no sentiment).
+                self.available = False
 
     # ------------------------------------------------------------------
     def analyze(self, text: str) -> SentimentResult:
@@ -203,7 +220,19 @@ class SentimentAnalyzer:
         text:
             Raw user message (punctuation and capitalisation are meaningful
             to VADER — do not lowercase before passing in).
+
+        Returns a neutral result with zero scores when VADER is unavailable,
+        so the chatbot never crashes due to a missing sentiment dependency.
         """
+        if not self.available or self._vader is None:
+            # Graceful degradation: return a neutral result.
+            return SentimentResult(
+                label="NEUTRAL",
+                intensity="LOW",
+                compound=0.0,
+                scores={"neg": 0.0, "neu": 1.0, "pos": 0.0, "compound": 0.0},
+            )
+
         scores   = self._vader.polarity_scores(text)
         compound = scores["compound"]
 
