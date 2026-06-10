@@ -34,7 +34,8 @@ pip install -r requirements.txt
 ```
 
 ### 2. Configure your API key
-Open `.env` and replace the placeholder:
+Open `.env` and replace the placeholder. The app checks `GOOGLE_API_KEY`,
+`GEMINI_API_KEY`, then `APIM_KEY`:
 ```
 GOOGLE_API_KEY=your_real_key_here
 ```
@@ -74,6 +75,7 @@ python main.py --cli
 | `/help`              | Show all commands                  |
 | `/time`              | Show current time                  |
 | `/date`              | Show today's date                  |
+| `/ask <question>`    | Answer a question inside the chat  |
 | `/search <query>`    | Open a Google search               |
 | `/image <prompt>`    | Generate an image with Gemini AI   |
 | `/analyze`           | Upload & analyze an image          |
@@ -125,7 +127,7 @@ python main.py --train
 | Problem | Fix |
 |---------|-----|
 | `ModuleNotFoundError` | Run `pip install -r requirements.txt` |
-| `No Google API key` | Set `GOOGLE_API_KEY` in `.env` |
+| `No API key` | Set `GOOGLE_API_KEY`, `GEMINI_API_KEY`, or `APIM_KEY` in `.env` |
 | Model gives wrong answers | Add more patterns to `intents.json` and retrain |
 | `words.pkl` not found | Run `python main.py --train` |
 

@@ -1,0 +1,181 @@
+text,label,intensity,compound_hint
+vibes are immaculate today fr fr,POSITIVE,HIGH,0.75
+Things are okay today.,POSITIVE,LOW,0.1
+"I'm so proud of myself, this is a huge achievement!",POSITIVE,HIGH,0.75
+"Not bad, I'll take it.",POSITIVE,LOW,0.1
+Pure joy — I can't stop smiling!,POSITIVE,HIGH,0.75
+That conversation went really well.,POSITIVE,MEDIUM,0.35
+"I am absolutely furious right now, this is completely unacceptable!",NEGATIVE,HIGH,-0.75
+How does that work exactly?,NEUTRAL,LOW,0.0
+I've never been this disappointed in my entire life.,NEGATIVE,HIGH,-0.75
+Incredible! Everything worked out better than I imagined!,POSITIVE,HIGH,0.75
+"This is the worst experience I have ever had, I'm disgusted.",NEGATIVE,HIGH,-0.75
+"That was fun, I'd do it again.",POSITIVE,MEDIUM,0.35
+Things are looking up after a really rough week.,POSITIVE,MEDIUM,0.35
+I'm so excited I can barely contain myself!,POSITIVE,HIGH,0.75
+"Feeling a tiny bit low, just one of those days.",NEGATIVE,LOW,-0.1
+That makes sense to me.,NEUTRAL,LOW,0.0
+I'm slightly frustrated but keeping it together.,NEGATIVE,LOW,-0.1
+lol that was actually pretty funny ngl,POSITIVE,MEDIUM,0.35
+"meh, could go either way i guess",NEUTRAL,LOW,0.0
+I'm completely overwhelmed and at my breaking point.,NEGATIVE,HIGH,-0.75
+That didn't go the way I wanted and I'm bummed out.,NEGATIVE,MEDIUM,-0.35
+im so done with all of this honestly,NEGATIVE,HIGH,-0.75
+"That worked out nicely, I'm pleased.",POSITIVE,MEDIUM,0.35
+I'm struggling with this and feeling drained.,NEGATIVE,MEDIUM,-0.35
+Can you tell me more about that topic?,NEUTRAL,LOW,0.0
+I used to love this but now I just don't care anymore.,NEGATIVE,LOW,-0.1
+wait this is actually great?? wasn't expecting that,POSITIVE,MEDIUM,0.35
+"I feel like giving up entirely, nothing ever works.",NEGATIVE,HIGH,-0.75
+I'm trying to stay positive but it's really hard right now.,NEGATIVE,MEDIUM,-0.35
+I didn't expect much and still got less than that.,NEGATIVE,MEDIUM,-0.35
+"This is phenomenal, I am seriously impressed!",POSITIVE,HIGH,0.75
+"I'm doing alright, thanks.",POSITIVE,LOW,0.1
+ugh this is so annoying why does this keep happening,NEGATIVE,MEDIUM,-0.35
+I'm feeling a bit flat right now.,NEGATIVE,LOW,-0.1
+"Yeah, I suppose that's alright.",POSITIVE,LOW,0.1
+I feel like things aren't in my control right now.,NEGATIVE,MEDIUM,-0.35
+I'm so angry I can't even think straight right now.,NEGATIVE,HIGH,-0.75
+I'm frustrated with how things are going.,NEGATIVE,MEDIUM,-0.35
+I'm grateful for the support even though I'm struggling.,POSITIVE,LOW,0.1
+I am absolutely thrilled with how everything turned out!,POSITIVE,HIGH,0.75
+I'm a bit discouraged but pushing through.,NEGATIVE,LOW,-0.1
+"I've never felt this good, absolutely wonderful!",POSITIVE,HIGH,0.75
+What happens next?,NEUTRAL,LOW,0.0
+I'll check on that and get back to you.,NEUTRAL,LOW,0.0
+I'm a little tired and not in the best mood.,NEGATIVE,LOW,-0.1
+I feel utterly devastated and hopeless right now.,NEGATIVE,HIGH,-0.75
+I love the idea but I hate how it was executed.,NEGATIVE,MEDIUM,-0.35
+"I feel let down, this didn't meet my expectations.",NEGATIVE,MEDIUM,-0.35
+Feeling cheerful and motivated today.,POSITIVE,MEDIUM,0.35
+"I'm not sure yet, still thinking.",NEUTRAL,LOW,0.0
+Fine by me.,POSITIVE,LOW,0.1
+"I'm exhausted and miserable, nothing is going right.",NEGATIVE,HIGH,-0.75
+I need some information about this.,NEUTRAL,LOW,0.0
+Completely outraged — this is an absolute disgrace!,NEGATIVE,HIGH,-0.75
+It's been a bit of an off day.,NEGATIVE,LOW,-0.1
+That was bittersweet — happy and sad at the same time.,NEUTRAL,LOW,0.0
+I'm smiling on the outside but struggling inside.,NEGATIVE,MEDIUM,-0.35
+"Everything is going perfectly, I feel on top of the world!",POSITIVE,HIGH,0.75
+Things started great but went downhill fast.,NEGATIVE,MEDIUM,-0.35
+"Wow, this exceeded every single expectation I had!",POSITIVE,HIGH,0.75
+Let me think about it.,NEUTRAL,LOW,0.0
+"Good vibes today, everything is flowing nicely.",POSITIVE,MEDIUM,0.35
+Everything has gone wrong and I feel utterly defeated.,NEGATIVE,HIGH,-0.75
+I feel ignored and that's quite upsetting.,NEGATIVE,MEDIUM,-0.35
+Things aren't great but they're manageable.,NEGATIVE,LOW,-0.1
+I appreciate the effort even if the result wasn't perfect.,POSITIVE,LOW,0.1
+"Meh, but on the positive side it works.",POSITIVE,LOW,0.1
+"ugh whatever, i'll deal with it",NEGATIVE,LOW,-0.1
+I have a question about this process.,NEUTRAL,LOW,0.0
+"I see, can you elaborate?",NEUTRAL,LOW,0.0
+"I appreciate that, it made me smile.",POSITIVE,MEDIUM,0.35
+I'm beaming with happiness right now!,POSITIVE,HIGH,0.75
+It's been a rough patch but nothing I can't handle.,NEGATIVE,LOW,-0.1
+"I feel conflicted — part of me is happy, part isn't.",NEUTRAL,LOW,0.0
+I'm livid — how could this happen again?!,NEGATIVE,HIGH,-0.75
+"I'm furious beyond words, this is a catastrophe.",NEGATIVE,HIGH,-0.75
+I'm slightly annoyed but it's nothing major.,NEGATIVE,LOW,-0.1
+"This is absolutely infuriating, I cannot believe this!",NEGATIVE,HIGH,-0.75
+"Today has been a good day, feeling positive.",POSITIVE,MEDIUM,0.35
+i'm dead 💀 that was hilarious,POSITIVE,HIGH,0.75
+What are the next steps?,NEUTRAL,LOW,0.0
+It was satisfactory.,POSITIVE,LOW,0.1
+I'm frustrated but I know it will get better.,NEGATIVE,LOW,-0.1
+I just got the news I've been waiting for — beyond ecstatic!,POSITIVE,HIGH,0.75
+What time does the meeting start?,NEUTRAL,LOW,0.0
+"nah this ain't it chief, not happy at all",NEGATIVE,MEDIUM,-0.35
+"Sure, that works for me.",POSITIVE,LOW,0.1
+"Could have been better, honestly.",NEGATIVE,LOW,-0.1
+im kinda stressed ngl,NEGATIVE,LOW,-0.1
+"It's fine I guess, whatever.",NEUTRAL,LOW,0.0
+I'm just checking in to see the status.,NEUTRAL,LOW,0.0
+Not really feeling it today.,NEGATIVE,LOW,-0.1
+I'm a little on edge today.,NEGATIVE,LOW,-0.1
+I need to review this before deciding.,NEUTRAL,LOW,0.0
+honestly feeling pretty blessed rn,POSITIVE,HIGH,0.75
+I feel slightly unmotivated right now.,NEGATIVE,LOW,-0.1
+Could you explain that differently?,NEUTRAL,LOW,0.0
+The situation is getting worse and I'm not coping well.,NEGATIVE,MEDIUM,-0.35
+Nobody listens to me and I feel completely invisible.,NEGATIVE,HIGH,-0.75
+I'm happy with how things went today.,POSITIVE,MEDIUM,0.35
+omg I'm literally crying laughing rn 😂,POSITIVE,HIGH,0.75
+I feel humiliated and totally disrespected.,NEGATIVE,HIGH,-0.75
+"Best experience ever, I am completely blown away!",POSITIVE,HIGH,0.75
+I'm pretty disappointed with the outcome.,NEGATIVE,MEDIUM,-0.35
+I'm cautiously optimistic but still nervous.,POSITIVE,LOW,0.1
+This keeps going wrong and it's really wearing me out.,NEGATIVE,MEDIUM,-0.35
+Things could be worse — actually things are pretty good!,POSITIVE,MEDIUM,0.35
+This is annoying me more than it probably should.,NEGATIVE,MEDIUM,-0.35
+I'm holding it together but barely.,NEGATIVE,MEDIUM,-0.35
+It was decent enough.,POSITIVE,LOW,0.1
+"Could be worse, I'm okay with it.",POSITIVE,LOW,0.1
+Please clarify what you mean.,NEUTRAL,LOW,0.0
+"I don't mind, it's acceptable.",POSITIVE,LOW,0.1
+That wasn't ideal but I'll get over it.,NEGATIVE,LOW,-0.1
+This isn't working out the way I hoped.,NEGATIVE,MEDIUM,-0.35
+"I'm okay, just going through the day.",POSITIVE,LOW,0.1
+"not gonna lie, this made me really happy",POSITIVE,MEDIUM,0.35
+"Alright then, moving on.",POSITIVE,LOW,0.1
+"I feel like dancing, everything is so amazing!",POSITIVE,HIGH,0.75
+That was a bit disappointing.,NEGATIVE,LOW,-0.1
+"Okay, I understand.",NEUTRAL,LOW,0.0
+I'm not at my best today.,NEGATIVE,LOW,-0.1
+"I love everything about this, it's just perfect!",POSITIVE,HIGH,0.75
+I'm looking forward to what comes next.,POSITIVE,MEDIUM,0.35
+This is really getting to me and I feel deflated.,NEGATIVE,MEDIUM,-0.35
+Overall I feel upbeat and optimistic.,POSITIVE,MEDIUM,0.35
+I'm stressed and a bit overwhelmed at the moment.,NEGATIVE,MEDIUM,-0.35
+Tell me what my options are.,NEUTRAL,LOW,0.0
+This is the most exciting thing that has ever happened to me!,POSITIVE,HIGH,0.75
+"That's fine, nothing special but fine.",POSITIVE,LOW,0.1
+I feel unsupported and kind of alone in this.,NEGATIVE,MEDIUM,-0.35
+"I'm in agony over this, it's destroying me.",NEGATIVE,HIGH,-0.75
+That was a pretty good experience overall.,POSITIVE,MEDIUM,0.35
+I feel disheartened by the lack of progress.,NEGATIVE,MEDIUM,-0.35
+I'm feeling hopeful about where things are headed.,POSITIVE,MEDIUM,0.35
+That left a slightly bad taste but I'll move on.,NEGATIVE,LOW,-0.1
+"This made my entire week, I'm so happy right now!",POSITIVE,HIGH,0.75
+"I hate this so much, it's absolutely terrible.",NEGATIVE,HIGH,-0.75
+I'm upset about what happened and want to talk about it.,NEGATIVE,MEDIUM,-0.35
+I'm worried this is going to end badly.,NEGATIVE,MEDIUM,-0.35
+"Feeling good today, had a productive morning.",POSITIVE,MEDIUM,0.35
+I'm bothered by this more than I expected to be.,NEGATIVE,MEDIUM,-0.35
+honestly? I'm kind of loving this,POSITIVE,MEDIUM,0.35
+"idk man, feeling kinda off today",NEGATIVE,LOW,-0.1
+I'm unhappy with the situation and want it resolved.,NEGATIVE,MEDIUM,-0.35
+this is lowkey really bothering me,NEGATIVE,LOW,-0.1
+"That was a pleasant surprise, I'm glad it happened.",POSITIVE,MEDIUM,0.35
+"I feel numb, not happy not sad just... empty.",NEUTRAL,LOW,0.0
+Things aren't going well and I'm feeling down.,NEGATIVE,MEDIUM,-0.35
+"bruh i give up, nothing works",NEGATIVE,HIGH,-0.75
+"It's okay, I guess.",POSITIVE,LOW,0.1
+"This is the best day of my life, I couldn't be happier!",POSITIVE,HIGH,0.75
+I feel betrayed and deeply hurt by what happened.,NEGATIVE,HIGH,-0.75
+I'm relieved it's over even though it was painful.,POSITIVE,LOW,0.1
+I feel somewhat drained lately.,NEGATIVE,LOW,-0.1
+"It's passable, I have no complaints.",POSITIVE,LOW,0.1
+"I'm mildly irritated, nothing serious.",NEGATIVE,LOW,-0.1
+"yo this actually slaps, really enjoying it",POSITIVE,HIGH,0.75
+I can work with that.,POSITIVE,LOW,0.1
+"Not bad, not great, just... there.",NEUTRAL,LOW,0.0
+"this is lowkey fire, really impressed",POSITIVE,MEDIUM,0.35
+My mood keeps going up and down today.,NEUTRAL,LOW,0.0
+"Got it, noted.",NEUTRAL,LOW,0.0
+Seems reasonable enough.,POSITIVE,LOW,0.1
+"I'll manage, it's okay.",POSITIVE,LOW,0.1
+"I enjoyed that, it was quite nice.",POSITIVE,MEDIUM,0.35
+Life is wonderful and I am so grateful for everything!,POSITIVE,HIGH,0.75
+I'm overjoyed — this is truly incredible news!,POSITIVE,HIGH,0.75
+"Feeling a little down, no particular reason.",NEGATIVE,LOW,-0.1
+Surprisingly good outcome given how bad it started.,POSITIVE,MEDIUM,0.35
+"Things are going well, I'm in a good mood.",POSITIVE,MEDIUM,0.35
+"Alright, let's proceed then.",NEUTRAL,LOW,0.0
+"I liked it, definitely worth my time.",POSITIVE,MEDIUM,0.35
+I feel content and at ease right now.,POSITIVE,MEDIUM,0.35
+"Sure, that sounds fine.",POSITIVE,LOW,0.1
+This is a total disaster and nobody seems to care!,NEGATIVE,HIGH,-0.75
+"This has ruined everything, I'm beyond upset.",NEGATIVE,HIGH,-0.75
+I feel absolutely fantastic right now!,POSITIVE,HIGH,0.75
+"I'm glad it came together, feeling satisfied.",POSITIVE,MEDIUM,0.35
+tbh i dont rly care either way,NEUTRAL,LOW,0.0

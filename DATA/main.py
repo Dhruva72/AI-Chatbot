@@ -47,6 +47,13 @@ SENTIMENT_LOG = DATA_DIR / "sentiment_log.jsonl"
 
 IGNORE_LETTERS   = {"?", "!", ".", ","}
 ERROR_THRESHOLD  = 0.25
+AI_FALLBACK_CONFIDENCE = 0.70
+
+IMAGE_REQUEST_RE = re.compile(
+    r"^(?:please\s+)?(?:generate|create|make|draw|paint)\s+"
+    r"(?:an?\s+)?(?:image|picture|photo|art|artwork)\s*(?:of|for|about)?\s+(.+)$",
+    re.IGNORECASE,
+)
 
 
 # ---------------------------------------------------------------------------
@@ -200,6 +207,7 @@ class ChatbotEngine:
             self.sentiment = SentimentAnalyzer.__new__(SentimentAnalyzer)
             self.sentiment.available = False
             self.sentiment._vader = None
+        self._ai_chat = None
 
     # ------------------------------------------------------------------
     # Loaders
@@ -219,6 +227,12 @@ class ChatbotEngine:
             train_model()
         return tf.keras.models.load_model(MODEL_FILE)
 
+    def get_ai_chat(self):
+        if self._ai_chat is None:
+            from ai_chat_service import AIChatService
+            self._ai_chat = AIChatService()
+        return self._ai_chat
+
     # ------------------------------------------------------------------
     # Commands list (shown by /help and the desktop UI sidebar)
     # ------------------------------------------------------------------
@@ -230,7 +244,8 @@ class ChatbotEngine:
             ("/time",              "Show the current time."),
             ("/date",              "Show today's date."),
             ("/mood",              "Check your detected sentiment."),          # NEW
-            ("/search <query>",    "Open a Google search for a topic."),
+            ("/ask <question>",    "Ask Gemini and get an answer in chat."),
+            ("/search <query>",    "Open Google search only when you request it."),
             ("/image <prompt>",    "Generate an image with AI."),
             ("/analyze <question>","Choose a device image and predict its contents."),
             ("/clear",             "Clear the conversation in the UI."),
@@ -261,8 +276,7 @@ class ChatbotEngine:
         """Return (text, intent_tag, probability) — no sentiment wrapping yet."""
         if not intents_list:
             return (
-                "I'm not sure how to respond to that yet. "
-                "Try rephrasing or use /search with your topic.",
+                "I do not have a confident local answer for that yet.",
                 None, None,
             )
         tag  = intents_list[0]["intent"]
@@ -271,6 +285,29 @@ class ChatbotEngine:
             if intent["tag"] == tag:
                 return random.choice(intent["responses"]), tag, prob
         return "I found an intent but have no response for it yet.", tag, prob
+
+    def should_use_ai_answer(self, intents_list: list[dict]) -> bool:
+        if not intents_list:
+            return True
+        return float(intents_list[0]["probability"]) < AI_FALLBACK_CONFIDENCE
+
+    def generate_ai_answer(self, text: str, user_name: str) -> str:
+        try:
+            return self.get_ai_chat().answer(text, user_name=user_name)
+        except Exception as exc:
+            return (
+                "I can answer this directly once your API key is configured. "
+                "Set GOOGLE_API_KEY, GEMINI_API_KEY, or APIM_KEY in the .env file, "
+                "then restart the chatbot.\n\n"
+                f"Technical detail: {exc}"
+            )
+
+    def extract_image_prompt(self, text: str) -> Optional[str]:
+        match = IMAGE_REQUEST_RE.match(text.strip())
+        if not match:
+            return None
+        prompt = match.group(1).strip(" .")
+        return prompt or None
 
     # ------------------------------------------------------------------
     # Sentiment logging
@@ -362,6 +399,23 @@ class ChatbotEngine:
                 f"I opened a web search for: {query}", action="open_url", url=url
             )
 
+        # ---- /ask --------------------------------------------------------
+        if normalized == "/ask":
+            return ChatbotReply(
+                "Type a question after /ask. Example: /ask explain neural networks simply."
+            )
+        if normalized.startswith("/ask ") or normalized.startswith("ask "):
+            question = text.split(" ", 1)[1].strip()
+            sentiment_result = self.sentiment.analyze(question)
+            raw_text = self.generate_ai_answer(question, user_name)
+            wrapped_text = sentiment_result.wrap(raw_text)
+            self._log_sentiment(question, wrapped_text, sentiment_result, "gemini_answer")
+            return ChatbotReply(
+                text=wrapped_text,
+                intent="gemini_answer",
+                sentiment=sentiment_result,
+            )
+
         # ---- /image ------------------------------------------------------
         if normalized == "/image":
             return ChatbotReply(
@@ -374,6 +428,14 @@ class ChatbotEngine:
                 action="generate_image", prompt=prompt,
             )
 
+        natural_image_prompt = self.extract_image_prompt(text)
+        if natural_image_prompt:
+            return ChatbotReply(
+                f"Generating an image for: {natural_image_prompt}",
+                action="generate_image",
+                prompt=natural_image_prompt,
+            )
+
         # ---- /analyze ----------------------------------------------------
         if normalized == "/analyze" or normalized.startswith("/analyze "):
             question = text.split(" ", 1)[1].strip() if " " in text else ""
@@ -384,7 +446,13 @@ class ChatbotEngine:
 
         # ---- NLP classification + SENTIMENT LAYER -----------------------
         sentiment_result = self.sentiment.analyze(text)          # analyse raw text
-        raw_text, intent_tag, prob = self.get_response(self.predict_class(text))
+        intents_list = self.predict_class(text)
+        if self.should_use_ai_answer(intents_list):
+            raw_text = self.generate_ai_answer(text, user_name)
+            intent_tag = "gemini_answer"
+            prob = intents_list[0]["probability"] if intents_list else None
+        else:
+            raw_text, intent_tag, prob = self.get_response(intents_list)
 
         # Wrap reply with empathy prefix + optional escalation note
         wrapped_text = sentiment_result.wrap(raw_text)

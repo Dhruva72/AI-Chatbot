@@ -1,0 +1,920 @@
+[
+  {
+    "text": "vibes are immaculate today fr fr",
+    "label": "POSITIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "Things are okay today.",
+    "label": "POSITIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I'm so proud of myself, this is a huge achievement!",
+    "label": "POSITIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "Not bad, I'll take it.",
+    "label": "POSITIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "Pure joy — I can't stop smiling!",
+    "label": "POSITIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "That conversation went really well.",
+    "label": "POSITIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "I am absolutely furious right now, this is completely unacceptable!",
+    "label": "NEGATIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "How does that work exactly?",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I've never been this disappointed in my entire life.",
+    "label": "NEGATIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "Incredible! Everything worked out better than I imagined!",
+    "label": "POSITIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "This is the worst experience I have ever had, I'm disgusted.",
+    "label": "NEGATIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "That was fun, I'd do it again.",
+    "label": "POSITIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "Things are looking up after a really rough week.",
+    "label": "POSITIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "I'm so excited I can barely contain myself!",
+    "label": "POSITIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "Feeling a tiny bit low, just one of those days.",
+    "label": "NEGATIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "That makes sense to me.",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I'm slightly frustrated but keeping it together.",
+    "label": "NEGATIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "lol that was actually pretty funny ngl",
+    "label": "POSITIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "meh, could go either way i guess",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I'm completely overwhelmed and at my breaking point.",
+    "label": "NEGATIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "That didn't go the way I wanted and I'm bummed out.",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "im so done with all of this honestly",
+    "label": "NEGATIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "That worked out nicely, I'm pleased.",
+    "label": "POSITIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "I'm struggling with this and feeling drained.",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "Can you tell me more about that topic?",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I used to love this but now I just don't care anymore.",
+    "label": "NEGATIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "wait this is actually great?? wasn't expecting that",
+    "label": "POSITIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "I feel like giving up entirely, nothing ever works.",
+    "label": "NEGATIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "I'm trying to stay positive but it's really hard right now.",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "I didn't expect much and still got less than that.",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "This is phenomenal, I am seriously impressed!",
+    "label": "POSITIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "I'm doing alright, thanks.",
+    "label": "POSITIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "ugh this is so annoying why does this keep happening",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "I'm feeling a bit flat right now.",
+    "label": "NEGATIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "Yeah, I suppose that's alright.",
+    "label": "POSITIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I feel like things aren't in my control right now.",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "I'm so angry I can't even think straight right now.",
+    "label": "NEGATIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "I'm frustrated with how things are going.",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "I'm grateful for the support even though I'm struggling.",
+    "label": "POSITIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I am absolutely thrilled with how everything turned out!",
+    "label": "POSITIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "I'm a bit discouraged but pushing through.",
+    "label": "NEGATIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I've never felt this good, absolutely wonderful!",
+    "label": "POSITIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "What happens next?",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I'll check on that and get back to you.",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I'm a little tired and not in the best mood.",
+    "label": "NEGATIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I feel utterly devastated and hopeless right now.",
+    "label": "NEGATIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "I love the idea but I hate how it was executed.",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "I feel let down, this didn't meet my expectations.",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "Feeling cheerful and motivated today.",
+    "label": "POSITIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "I'm not sure yet, still thinking.",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  },
+  {
+    "text": "Fine by me.",
+    "label": "POSITIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I'm exhausted and miserable, nothing is going right.",
+    "label": "NEGATIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "I need some information about this.",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  },
+  {
+    "text": "Completely outraged — this is an absolute disgrace!",
+    "label": "NEGATIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "It's been a bit of an off day.",
+    "label": "NEGATIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "That was bittersweet — happy and sad at the same time.",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I'm smiling on the outside but struggling inside.",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "Everything is going perfectly, I feel on top of the world!",
+    "label": "POSITIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "Things started great but went downhill fast.",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "Wow, this exceeded every single expectation I had!",
+    "label": "POSITIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "Let me think about it.",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  },
+  {
+    "text": "Good vibes today, everything is flowing nicely.",
+    "label": "POSITIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "Everything has gone wrong and I feel utterly defeated.",
+    "label": "NEGATIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "I feel ignored and that's quite upsetting.",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "Things aren't great but they're manageable.",
+    "label": "NEGATIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I appreciate the effort even if the result wasn't perfect.",
+    "label": "POSITIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "Meh, but on the positive side it works.",
+    "label": "POSITIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "ugh whatever, i'll deal with it",
+    "label": "NEGATIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I have a question about this process.",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I see, can you elaborate?",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I appreciate that, it made me smile.",
+    "label": "POSITIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "I'm beaming with happiness right now!",
+    "label": "POSITIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "It's been a rough patch but nothing I can't handle.",
+    "label": "NEGATIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I feel conflicted — part of me is happy, part isn't.",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I'm livid — how could this happen again?!",
+    "label": "NEGATIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "I'm furious beyond words, this is a catastrophe.",
+    "label": "NEGATIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "I'm slightly annoyed but it's nothing major.",
+    "label": "NEGATIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "This is absolutely infuriating, I cannot believe this!",
+    "label": "NEGATIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "Today has been a good day, feeling positive.",
+    "label": "POSITIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "i'm dead 💀 that was hilarious",
+    "label": "POSITIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "What are the next steps?",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  },
+  {
+    "text": "It was satisfactory.",
+    "label": "POSITIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I'm frustrated but I know it will get better.",
+    "label": "NEGATIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I just got the news I've been waiting for — beyond ecstatic!",
+    "label": "POSITIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "What time does the meeting start?",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  },
+  {
+    "text": "nah this ain't it chief, not happy at all",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "Sure, that works for me.",
+    "label": "POSITIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "Could have been better, honestly.",
+    "label": "NEGATIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "im kinda stressed ngl",
+    "label": "NEGATIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "It's fine I guess, whatever.",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I'm just checking in to see the status.",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  },
+  {
+    "text": "Not really feeling it today.",
+    "label": "NEGATIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I'm a little on edge today.",
+    "label": "NEGATIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I need to review this before deciding.",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  },
+  {
+    "text": "honestly feeling pretty blessed rn",
+    "label": "POSITIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "I feel slightly unmotivated right now.",
+    "label": "NEGATIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "Could you explain that differently?",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  },
+  {
+    "text": "The situation is getting worse and I'm not coping well.",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "Nobody listens to me and I feel completely invisible.",
+    "label": "NEGATIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "I'm happy with how things went today.",
+    "label": "POSITIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "omg I'm literally crying laughing rn 😂",
+    "label": "POSITIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "I feel humiliated and totally disrespected.",
+    "label": "NEGATIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "Best experience ever, I am completely blown away!",
+    "label": "POSITIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "I'm pretty disappointed with the outcome.",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "I'm cautiously optimistic but still nervous.",
+    "label": "POSITIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "This keeps going wrong and it's really wearing me out.",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "Things could be worse — actually things are pretty good!",
+    "label": "POSITIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "This is annoying me more than it probably should.",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "I'm holding it together but barely.",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "It was decent enough.",
+    "label": "POSITIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "Could be worse, I'm okay with it.",
+    "label": "POSITIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "Please clarify what you mean.",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I don't mind, it's acceptable.",
+    "label": "POSITIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "That wasn't ideal but I'll get over it.",
+    "label": "NEGATIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "This isn't working out the way I hoped.",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "I'm okay, just going through the day.",
+    "label": "POSITIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "not gonna lie, this made me really happy",
+    "label": "POSITIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "Alright then, moving on.",
+    "label": "POSITIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I feel like dancing, everything is so amazing!",
+    "label": "POSITIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "That was a bit disappointing.",
+    "label": "NEGATIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "Okay, I understand.",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I'm not at my best today.",
+    "label": "NEGATIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I love everything about this, it's just perfect!",
+    "label": "POSITIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "I'm looking forward to what comes next.",
+    "label": "POSITIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "This is really getting to me and I feel deflated.",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "Overall I feel upbeat and optimistic.",
+    "label": "POSITIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "I'm stressed and a bit overwhelmed at the moment.",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "Tell me what my options are.",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  },
+  {
+    "text": "This is the most exciting thing that has ever happened to me!",
+    "label": "POSITIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "That's fine, nothing special but fine.",
+    "label": "POSITIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I feel unsupported and kind of alone in this.",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "I'm in agony over this, it's destroying me.",
+    "label": "NEGATIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "That was a pretty good experience overall.",
+    "label": "POSITIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "I feel disheartened by the lack of progress.",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "I'm feeling hopeful about where things are headed.",
+    "label": "POSITIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "That left a slightly bad taste but I'll move on.",
+    "label": "NEGATIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "This made my entire week, I'm so happy right now!",
+    "label": "POSITIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "I hate this so much, it's absolutely terrible.",
+    "label": "NEGATIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "I'm upset about what happened and want to talk about it.",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "I'm worried this is going to end badly.",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "Feeling good today, had a productive morning.",
+    "label": "POSITIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "I'm bothered by this more than I expected to be.",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "honestly? I'm kind of loving this",
+    "label": "POSITIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "idk man, feeling kinda off today",
+    "label": "NEGATIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I'm unhappy with the situation and want it resolved.",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "this is lowkey really bothering me",
+    "label": "NEGATIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "That was a pleasant surprise, I'm glad it happened.",
+    "label": "POSITIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "I feel numb, not happy not sad just... empty.",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  },
+  {
+    "text": "Things aren't going well and I'm feeling down.",
+    "label": "NEGATIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "bruh i give up, nothing works",
+    "label": "NEGATIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "It's okay, I guess.",
+    "label": "POSITIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "This is the best day of my life, I couldn't be happier!",
+    "label": "POSITIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "I feel betrayed and deeply hurt by what happened.",
+    "label": "NEGATIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "I'm relieved it's over even though it was painful.",
+    "label": "POSITIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I feel somewhat drained lately.",
+    "label": "NEGATIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "It's passable, I have no complaints.",
+    "label": "POSITIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I'm mildly irritated, nothing serious.",
+    "label": "NEGATIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "yo this actually slaps, really enjoying it",
+    "label": "POSITIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "I can work with that.",
+    "label": "POSITIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "Not bad, not great, just... there.",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  },
+  {
+    "text": "this is lowkey fire, really impressed",
+    "label": "POSITIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "My mood keeps going up and down today.",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  },
+  {
+    "text": "Got it, noted.",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  },
+  {
+    "text": "Seems reasonable enough.",
+    "label": "POSITIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I'll manage, it's okay.",
+    "label": "POSITIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I enjoyed that, it was quite nice.",
+    "label": "POSITIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "Life is wonderful and I am so grateful for everything!",
+    "label": "POSITIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "I'm overjoyed — this is truly incredible news!",
+    "label": "POSITIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "Feeling a little down, no particular reason.",
+    "label": "NEGATIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "Surprisingly good outcome given how bad it started.",
+    "label": "POSITIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "Things are going well, I'm in a good mood.",
+    "label": "POSITIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "Alright, let's proceed then.",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  },
+  {
+    "text": "I liked it, definitely worth my time.",
+    "label": "POSITIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "I feel content and at ease right now.",
+    "label": "POSITIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "Sure, that sounds fine.",
+    "label": "POSITIVE",
+    "intensity": "LOW"
+  },
+  {
+    "text": "This is a total disaster and nobody seems to care!",
+    "label": "NEGATIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "This has ruined everything, I'm beyond upset.",
+    "label": "NEGATIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "I feel absolutely fantastic right now!",
+    "label": "POSITIVE",
+    "intensity": "HIGH"
+  },
+  {
+    "text": "I'm glad it came together, feeling satisfied.",
+    "label": "POSITIVE",
+    "intensity": "MEDIUM"
+  },
+  {
+    "text": "tbh i dont rly care either way",
+    "label": "NEUTRAL",
+    "intensity": "LOW"
+  }
+  ,
+  {
+    "text":"Genwin",
+    "label":"NEUTRAL",
+    "intensity":"LOW"
+  }
+  ,
+  {
+    "text": "LOL",
+    "label": "POSITIVE",
+    "intensity": "LOW"
+  }
+  ,
+  {
+    "text": "NIGGA",
+    "label": "POSITIVE",
+    "intensity": "HIGH"
+  }
+]

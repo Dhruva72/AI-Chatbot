@@ -25,8 +25,14 @@ Public API
 from __future__ import annotations
 
 import random
+import csv
+import difflib
+import json
+import math
+import re
 from dataclasses import dataclass, field
-from typing import Literal
+from pathlib import Path
+from typing import Literal, Optional
 
 # ---------------------------------------------------------------------------
 # Thresholds
@@ -52,6 +58,127 @@ ESCALATION_THRESHOLD = -0.70
 
 SentimentLabel    = Literal["POSITIVE", "NEGATIVE", "NEUTRAL"]
 IntensityLabel    = Literal["LOW", "MEDIUM", "HIGH"]
+
+DATA_DIR = Path(__file__).resolve().parent
+PROJECT_DIR = DATA_DIR.parent
+DATASET_CANDIDATES = (
+    PROJECT_DIR / "sentiment_dataset.csv",
+    PROJECT_DIR / "sentiment_dataset.json",
+    DATA_DIR / "sentiment_dataset.csv",
+    DATA_DIR / "sentiment_dataset.json",
+)
+
+DATASET_SIMILARITY_THRESHOLD = 0.54
+DATASET_NAIVE_BAYES_MARGIN = 0.75
+
+_DEFAULT_COMPOUNDS: dict[tuple[str, str], float] = {
+    ("POSITIVE", "HIGH"): 0.75,
+    ("POSITIVE", "MEDIUM"): 0.35,
+    ("POSITIVE", "LOW"): 0.10,
+    ("NEGATIVE", "HIGH"): -0.75,
+    ("NEGATIVE", "MEDIUM"): -0.35,
+    ("NEGATIVE", "LOW"): -0.10,
+    ("NEUTRAL", "HIGH"): 0.0,
+    ("NEUTRAL", "MEDIUM"): 0.0,
+    ("NEUTRAL", "LOW"): 0.0,
+}
+
+_STOP_WORDS = {
+    "a", "an", "and", "are", "as", "at", "be", "been", "but", "by",
+    "for", "from", "had", "has", "have", "i", "im", "in", "is", "it",
+    "just", "me", "my", "of", "on", "or", "so", "that", "the", "this",
+    "to", "was", "we", "were", "with", "you", "your",
+}
+
+
+@dataclass(frozen=True)
+class SentimentExample:
+    text: str
+    label: SentimentLabel
+    intensity: IntensityLabel
+    compound: float
+    normalized: str
+    tokens: frozenset[str]
+
+
+@dataclass(frozen=True)
+class DatasetPrediction:
+    label: SentimentLabel
+    intensity: IntensityLabel
+    compound: float
+    confidence: float
+    method: str
+    matched_text: Optional[str] = None
+
+
+def _normalize_text(text: str) -> str:
+    return " ".join(re.findall(r"[a-z0-9']+", text.lower()))
+
+
+def _content_tokens(text: str) -> frozenset[str]:
+    normalized = _normalize_text(text).replace("'", "")
+    tokens = re.findall(r"[a-z0-9]+", normalized)
+    return frozenset(t for t in tokens if len(t) > 1 and t not in _STOP_WORDS)
+
+
+def _default_compound(label: str, intensity: str) -> float:
+    return _DEFAULT_COMPOUNDS.get((label, intensity), 0.0)
+
+
+def _read_dataset_rows(path: Path) -> list[dict[str, str]]:
+    try:
+        if path.suffix.lower() == ".csv":
+            with path.open(newline="", encoding="utf-8-sig") as f:
+                return [dict(row) for row in csv.DictReader(f)]
+        if path.suffix.lower() == ".json":
+            with path.open(encoding="utf-8-sig") as f:
+                data = json.load(f)
+            return data if isinstance(data, list) else []
+    except (OSError, json.JSONDecodeError, csv.Error):
+        return []
+    return []
+
+
+def _load_sentiment_examples() -> list[SentimentExample]:
+    examples: list[SentimentExample] = []
+    seen: set[str] = set()
+
+    for path in DATASET_CANDIDATES:
+        if not path.exists():
+            continue
+        for row in _read_dataset_rows(path):
+            text = str(row.get("text", "")).strip()
+            label = str(row.get("label", "")).strip().upper()
+            intensity = str(row.get("intensity", "")).strip().upper()
+            normalized = _normalize_text(text)
+
+            if (
+                not text
+                or not normalized
+                or normalized in seen
+                or label not in {"POSITIVE", "NEGATIVE", "NEUTRAL"}
+                or intensity not in {"LOW", "MEDIUM", "HIGH"}
+            ):
+                continue
+
+            try:
+                compound = float(row.get("compound_hint", ""))
+            except (TypeError, ValueError):
+                compound = _default_compound(label, intensity)
+
+            examples.append(
+                SentimentExample(
+                    text=text,
+                    label=label,  # type: ignore[arg-type]
+                    intensity=intensity,  # type: ignore[arg-type]
+                    compound=max(-1.0, min(1.0, compound)),
+                    normalized=normalized,
+                    tokens=_content_tokens(text),
+                )
+            )
+            seen.add(normalized)
+
+    return examples
 
 # ---------------------------------------------------------------------------
 # Response prefix pools
@@ -117,6 +244,7 @@ class SentimentResult:
     intensity: IntensityLabel
     compound:  float                      # −1.0 … +1.0
     scores:    dict[str, float] = field(default_factory=dict)
+    source:    str = "vader"
 
     @property
     def emoji(self) -> str:
@@ -168,6 +296,7 @@ class SentimentResult:
             "compound":  round(self.compound, 4),
             "emoji":     self.emoji,
             "escalate":  self.escalate,
+            "source":    self.source,
         }
 
 
@@ -190,6 +319,15 @@ class SentimentAnalyzer:
     def __init__(self) -> None:
         self.available = False
         self._vader = None
+        self.examples = _load_sentiment_examples()
+        self._example_lookup = {ex.normalized: ex for ex in self.examples}
+        self._classes = tuple(_DEFAULT_COMPOUNDS.keys())
+        self._class_doc_counts = {key: 0 for key in self._classes}
+        self._class_token_counts = {key: {} for key in self._classes}
+        self._class_token_totals = {key: 0 for key in self._classes}
+        self._class_compounds = {key: [] for key in self._classes}
+        self._vocab: set[str] = set()
+        self._build_dataset_model()
         try:
             # Attempt to install automatically if missing (silent best-effort).
             from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
@@ -211,6 +349,140 @@ class SentimentAnalyzer:
                 self.available = False
 
     # ------------------------------------------------------------------
+    def _build_dataset_model(self) -> None:
+        """Build a tiny token model from sentiment_dataset.* examples."""
+        for example in self.examples:
+            key = (example.label, example.intensity)
+            self._class_doc_counts[key] += 1
+            self._class_compounds[key].append(example.compound)
+            for token in example.tokens:
+                counts = self._class_token_counts[key]
+                counts[token] = counts.get(token, 0) + 1
+                self._class_token_totals[key] += 1
+                self._vocab.add(token)
+
+    # ------------------------------------------------------------------
+    def _compound_for_class(self, label: str, intensity: str) -> float:
+        key = (label, intensity)
+        compounds = self._class_compounds.get(key) or []
+        if compounds:
+            return sum(compounds) / len(compounds)
+        return _default_compound(label, intensity)
+
+    # ------------------------------------------------------------------
+    def _dataset_result(self, prediction: DatasetPrediction) -> SentimentResult:
+        label = prediction.label
+        intensity = prediction.intensity
+        compound = prediction.compound
+        if label == "POSITIVE":
+            scores = {
+                "neg": 0.0,
+                "neu": max(0.0, 1.0 - abs(compound)),
+                "pos": abs(compound),
+                "compound": compound,
+            }
+        elif label == "NEGATIVE":
+            scores = {
+                "neg": abs(compound),
+                "neu": max(0.0, 1.0 - abs(compound)),
+                "pos": 0.0,
+                "compound": compound,
+            }
+        else:
+            scores = {"neg": 0.0, "neu": 1.0, "pos": 0.0, "compound": compound}
+        scores["dataset_confidence"] = round(prediction.confidence, 4)
+        return SentimentResult(
+            label=label,
+            intensity=intensity,
+            compound=compound,
+            scores=scores,
+            source=f"dataset:{prediction.method}",
+        )
+
+    # ------------------------------------------------------------------
+    def _predict_from_dataset(self, text: str) -> Optional[DatasetPrediction]:
+        normalized = _normalize_text(text)
+        if not normalized or not self.examples:
+            return None
+
+        exact = self._example_lookup.get(normalized)
+        if exact:
+            return DatasetPrediction(
+                label=exact.label,
+                intensity=exact.intensity,
+                compound=exact.compound,
+                confidence=1.0,
+                method="exact",
+                matched_text=exact.text,
+            )
+
+        tokens = _content_tokens(text)
+        best_example: Optional[SentimentExample] = None
+        best_score = 0.0
+        for example in self.examples:
+            token_score = 0.0
+            if tokens and example.tokens:
+                token_score = len(tokens & example.tokens) / len(tokens | example.tokens)
+            sequence_score = difflib.SequenceMatcher(
+                None, normalized, example.normalized
+            ).ratio()
+            score = max(token_score, sequence_score * 0.92)
+            if score > best_score:
+                best_score = score
+                best_example = example
+
+        if best_example and best_score >= DATASET_SIMILARITY_THRESHOLD:
+            return DatasetPrediction(
+                label=best_example.label,
+                intensity=best_example.intensity,
+                compound=best_example.compound,
+                confidence=best_score,
+                method="similar",
+                matched_text=best_example.text,
+            )
+
+        if not tokens or not self._vocab:
+            return None
+
+        matched_tokens = sum(1 for token in tokens if token in self._vocab)
+        if matched_tokens == 0:
+            return None
+
+        vocab_size = max(1, len(self._vocab))
+        total_docs = sum(self._class_doc_counts.values())
+        active_classes = [key for key in self._classes if self._class_doc_counts[key] > 0]
+        if not active_classes:
+            return None
+
+        scored: list[tuple[float, tuple[str, str]]] = []
+        for key in active_classes:
+            prior = (self._class_doc_counts[key] + 1) / (total_docs + len(active_classes))
+            score = math.log(prior)
+            denominator = self._class_token_totals[key] + vocab_size
+            counts = self._class_token_counts[key]
+            for token in tokens:
+                score += math.log((counts.get(token, 0) + 1) / denominator)
+            scored.append((score, key))
+
+        scored.sort(reverse=True, key=lambda item: item[0])
+        best_score, (label, intensity) = scored[0]
+        second_score = scored[1][0] if len(scored) > 1 else best_score - 2.0
+        margin = best_score - second_score
+        confidence = 1.0 - math.exp(-max(0.0, margin))
+
+        if confidence < DATASET_NAIVE_BAYES_MARGIN:
+            if matched_tokens < 2 or confidence < 0.45:
+                return None
+
+        return DatasetPrediction(
+            label=label,  # type: ignore[arg-type]
+            intensity=intensity,  # type: ignore[arg-type]
+            compound=self._compound_for_class(label, intensity),
+            confidence=confidence,
+            method="naive_bayes",
+        )
+
+    # ------------------------------------------------------------------
     def analyze(self, text: str) -> SentimentResult:
         """
         Analyse *text* and return a :class:`SentimentResult`.
@@ -224,13 +496,19 @@ class SentimentAnalyzer:
         Returns a neutral result with zero scores when VADER is unavailable,
         so the chatbot never crashes due to a missing sentiment dependency.
         """
+        dataset_prediction = self._predict_from_dataset(text)
+        if dataset_prediction and dataset_prediction.method in {"exact", "similar"}:
+            return self._dataset_result(dataset_prediction)
+
         if not self.available or self._vader is None:
-            # Graceful degradation: return a neutral result.
+            if dataset_prediction:
+                return self._dataset_result(dataset_prediction)
             return SentimentResult(
                 label="NEUTRAL",
                 intensity="LOW",
                 compound=0.0,
                 scores={"neg": 0.0, "neu": 1.0, "pos": 0.0, "compound": 0.0},
+                source="unavailable",
             )
 
         scores   = self._vader.polarity_scores(text)
@@ -251,9 +529,20 @@ class SentimentAnalyzer:
         else:
             intensity = "LOW"
 
-        return SentimentResult(
+        vader_result = SentimentResult(
             label=label,
             intensity=intensity,
             compound=compound,
             scores=scores,
         )
+
+        if dataset_prediction:
+            if dataset_prediction.confidence >= DATASET_NAIVE_BAYES_MARGIN:
+                return self._dataset_result(dataset_prediction)
+            if (
+                dataset_prediction.label == vader_result.label
+                and dataset_prediction.confidence >= 0.45
+            ):
+                return self._dataset_result(dataset_prediction)
+
+        return vader_result
