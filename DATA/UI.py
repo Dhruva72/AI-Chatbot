@@ -312,7 +312,7 @@ class ChatbotProfileUI:
         image_path = filedialog.askopenfilename(
             title="Choose an image to predict",
             filetypes=[
-                ("Supported images", "*.png *.jpg *.jpeg *.webp *.heic *.heif"),
+                ("Supported images", "*.png *.jpg *.jpeg *.webp"),
                 ("All files", "*.*"),
             ],
         )

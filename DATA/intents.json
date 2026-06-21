@@ -2,52 +2,52 @@
   "intents": [
     {
       "tag": "greeting",
-      "patterns": ["Hi","Hello","Hey","Good morning","Good afternoon","Good evening","Howdy","What's up","Greetings","Hi there"],
+      "patterns": ["Hi","Hello","Hey","Good morning","Good afternoon","Good evening","Howdy","What's up","Greetings","Hi there","Yo","Hey bot"],
       "responses": ["Hello! How can I help you today?","Hi there! What can I do for you?","Hey! Great to see you. What do you need?"]
     },
     {
       "tag": "goodbye",
-      "patterns": ["Bye","Goodbye","See you later","See ya","Take care","Good night","Catch you later","I'm done","That's all"],
+      "patterns": ["Bye","Goodbye","See you later","See ya","Take care","Good night","Catch you later","I'm done","That's all","I'm leaving now","Gotta go"],
       "responses": ["Goodbye! Have a wonderful day!","Take care! Come back anytime.","See you later! Stay awesome."]
     },
     {
       "tag": "thanks",
-      "patterns": ["Thanks","Thank you","Thanks a lot","Much appreciated","Cheers","That helped","Thanks so much"],
+      "patterns": ["Thanks","Thank you","Thanks a lot","Much appreciated","Cheers","That helped","Thanks so much","Appreciate it","You're a great help"],
       "responses": ["You're welcome!","Happy to help!","Anytime! Let me know if you need anything else."]
     },
     {
       "tag": "how_are_you",
-      "patterns": ["How are you","How are you doing","How's it going","Are you okay","How do you feel"],
+      "patterns": ["How are you","How are you doing","How's it going","Are you okay","How do you feel","You doing alright","How's your day"],
       "responses": ["I'm doing great, thanks for asking! How can I help you?","All good on my end! What can I assist you with today?"]
     },
     {
       "tag": "name",
-      "patterns": ["What is your name","Who are you","What should I call you","Tell me your name","What are you called"],
+      "patterns": ["What is your name","Who are you","What should I call you","Tell me your name","What are you called","Do you have a name"],
       "responses": ["I'm your NLP Chatbot assistant, here to help!","You can call me ChatBot. I'm here to assist you."]
     },
     {
       "tag": "help",
-      "patterns": ["Help","What can you do","What are your features","How do I use you","Show me commands","I need help"],
+      "patterns": ["Help","What can you do","What are your features","How do I use you","Show me commands","I need help","List your commands","Show me what you can do"],
       "responses": ["I can answer questions, search the web, generate images, and analyze photos. Type /help to see all commands!"]
     },
     {
       "tag": "joke",
-      "patterns": ["Tell me a joke","Make me laugh","Say something funny","Do you know any jokes","Give me a joke"],
+      "patterns": ["Tell me a joke","Make me laugh","Say something funny","Do you know any jokes","Give me a joke","Got any jokes","Crack a joke"],
       "responses": ["Why don't scientists trust atoms? Because they make up everything!","What do you call fake spaghetti? An impasta!","Why did the chatbot go to school? To improve its language model!"]
     },
     {
       "tag": "python",
-      "patterns": ["What is Python","Tell me about Python","Python programming","Why use Python","Python language"],
+      "patterns": ["python programming language","tell me about python","why use python for development","python syntax basics","is python good for beginners","python vs other languages","define python programming"],
       "responses": ["Python is a high-level, versatile programming language known for its clean syntax. It's widely used in AI, web development, data science, and automation."]
     },
     {
       "tag": "nlp",
-      "patterns": ["What is NLP","Explain NLP","Natural Language Processing","How does NLP work","What is natural language processing"],
+      "patterns": ["natural language processing definition","explain nlp to me","how does nlp work","nlp in computer science","text processing with nlp","language understanding by computers","nlp techniques"],
       "responses": ["NLP stands for Natural Language Processing — it's how computers understand and process human language. This chatbot uses NLP to understand your messages!"]
     },
     {
       "tag": "machine_learning",
-      "patterns": ["What is machine learning","Explain machine learning","How does ML work","What is AI","Artificial intelligence"],
+      "patterns": ["machine learning definition","explain machine learning to me","how does ml work","artificial intelligence basics","define machine learning","ml algorithms explained","training models with data"],
       "responses": ["Machine Learning is a type of AI where computers learn from data to make decisions without being explicitly programmed. This chatbot uses ML to classify your messages!"]
     }
   ]

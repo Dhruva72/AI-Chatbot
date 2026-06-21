@@ -31,7 +31,7 @@ from typing import Optional
 import nltk
 import numpy as np
 from nltk.stem import WordNetLemmatizer
-
+from ollama_engine import generate_response, build_context
 from sentiment_engine import SentimentAnalyzer, SentimentResult
 
 
@@ -47,7 +47,7 @@ SENTIMENT_LOG = DATA_DIR / "sentiment_log.jsonl"
 
 IGNORE_LETTERS   = {"?", "!", ".", ","}
 ERROR_THRESHOLD  = 0.25
-AI_FALLBACK_CONFIDENCE = 0.70
+AI_FALLBACK_CONFIDENCE = 0.85
 
 IMAGE_REQUEST_RE = re.compile(
     r"^(?:please\s+)?(?:generate|create|make|draw|paint)\s+"
@@ -184,6 +184,7 @@ class ChatbotEngine:
       3. Attached to the :class:`ChatbotReply` for the UI layers.
       4. Logged to ``sentiment_log.jsonl``.
     """
+   
 
     def __init__(self) -> None:
         ensure_nltk_data()
@@ -244,10 +245,10 @@ class ChatbotEngine:
             ("/time",              "Show the current time."),
             ("/date",              "Show today's date."),
             ("/mood",              "Check your detected sentiment."),          # NEW
-            ("/ask <question>",    "Ask Gemini and get an answer in chat."),
+            ("/ask <question>",    "Ask local Ollama (Llama 3) in chat."),
             ("/search <query>",    "Open Google search only when you request it."),
-            ("/image <prompt>",    "Generate an image with AI."),
-            ("/analyze <question>","Choose a device image and predict its contents."),
+            ("/image <prompt>",    "Show local image-generation availability."),
+            ("/analyze <question>","Analyze an image with an Ollama vision model."),
             ("/clear",             "Clear the conversation in the UI."),
             ("/save",              "Save the current conversation in the UI."),
             ("/name <name>",       "Update the profile name in the UI."),
@@ -296,9 +297,8 @@ class ChatbotEngine:
             return self.get_ai_chat().answer(text, user_name=user_name)
         except Exception as exc:
             return (
-                "I can answer this directly once your API key is configured. "
-                "Set GOOGLE_API_KEY, GEMINI_API_KEY, or APIM_KEY in the .env file, "
-                "then restart the chatbot.\n\n"
+                "I could not reach the local Ollama model. Start Ollama and make "
+                "sure the configured model is installed (default: llama3).\n\n"
                 f"Technical detail: {exc}"
             )
 
@@ -409,31 +409,30 @@ class ChatbotEngine:
             sentiment_result = self.sentiment.analyze(question)
             raw_text = self.generate_ai_answer(question, user_name)
             wrapped_text = sentiment_result.wrap(raw_text)
-            self._log_sentiment(question, wrapped_text, sentiment_result, "gemini_answer")
+            self._log_sentiment(question, wrapped_text, sentiment_result, "ollama_answer")
             return ChatbotReply(
                 text=wrapped_text,
-                intent="gemini_answer",
+                intent="ollama_answer",
                 sentiment=sentiment_result,
             )
 
         # ---- /image ------------------------------------------------------
         if normalized == "/image":
             return ChatbotReply(
-                "Type a description after /image. Example: /image a city at sunset."
+                "Llama 3 is text-only and cannot generate image files. "
+                "Your chatbot is otherwise fully local through Ollama."
             )
         if normalized.startswith("/image "):
-            prompt = text.split(" ", 1)[1].strip()
             return ChatbotReply(
-                f"Generating an image for: {prompt}",
-                action="generate_image", prompt=prompt,
+                "Llama 3 is text-only and cannot generate image files. "
+                "Use /ask for text responses or /analyze with an Ollama vision model."
             )
 
         natural_image_prompt = self.extract_image_prompt(text)
         if natural_image_prompt:
             return ChatbotReply(
-                f"Generating an image for: {natural_image_prompt}",
-                action="generate_image",
-                prompt=natural_image_prompt,
+                "Llama 3 is text-only and cannot generate image files. "
+                "I can still help you write or improve an image prompt with /ask."
             )
 
         # ---- /analyze ----------------------------------------------------
@@ -449,7 +448,7 @@ class ChatbotEngine:
         intents_list = self.predict_class(text)
         if self.should_use_ai_answer(intents_list):
             raw_text = self.generate_ai_answer(text, user_name)
-            intent_tag = "gemini_answer"
+            intent_tag = "ollama_answer"
             prob = intents_list[0]["probability"] if intents_list else None
         else:
             raw_text, intent_tag, prob = self.get_response(intents_list)
