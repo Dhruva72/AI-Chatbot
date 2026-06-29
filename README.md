@@ -1,136 +1,74 @@
-# 🤖 NLP Chatbot — Internship Project
+# NLP Chatbot with local Ollama
 
-A full-featured AI chatbot built with **Python + TensorFlow + Google Gemini**.  
-Supports three interfaces: **Web App**, **Tkinter Desktop UI**, and **Terminal CLI**.
+A Python, TensorFlow, and Ollama chatbot with web, Tkinter, and terminal interfaces. General questions are answered locally by `llama3`; no cloud API key is required.
 
----
+## Setup
 
-## 📁 Project Structure
+1. Install the Python dependencies:
 
-```
-chatbot/
-├── main.py               # Core chatbot engine (NLP model + commands)
-├── web_app.py            # Built-in HTTP web server
-├── UI.py                 # Tkinter desktop GUI
-├── ai_image_service.py   # Google Gemini image generation & analysis
-├── intents.json          # Training data (add more Q&A pairs here!)
-├── chatbot_model.h5      # Trained TensorFlow model
-├── classes.pkl           # Intent class labels
-├── words.pkl             # Vocabulary (auto-generated on train)
-├── requirements.txt      # Python dependencies
-├── .env                  # Your secret API key (never share this!)
-├── web/
-│   └── index.html        # Web app frontend
-└── generated_images/     # AI-generated images saved here
-```
+   ```powershell
+   .\.conda\python.exe -m pip install -r requirements.txt
+   ```
 
----
+2. Start Ollama and install the text model:
 
-## ⚙️ Setup
+   ```powershell
+   ollama serve
+   ollama pull llama3
+   ```
 
-### 1. Install dependencies
-```bash
-pip install -r requirements.txt
-```
+3. Optionally copy `.env.example` to `.env` and change the model or endpoint:
 
-### 2. Configure your API key
-Open `.env` and replace the placeholder. The app checks `GOOGLE_API_KEY`,
-`GEMINI_API_KEY`, then `APIM_KEY`:
-```
-GOOGLE_API_KEY=your_real_key_here
-```
-Get a free key at: https://aistudio.google.com/app/apikey
+   ```dotenv
+   OLLAMA_URL=http://127.0.0.1:11434/api/generate
+   OLLAMA_MODEL=llama3
+   ```
 
-### 3. Retrain the model (if you edited intents.json)
-```bash
-python main.py --train
-```
+4. Run the web chatbot from the project root:
 
----
+   ```powershell
+   .\.conda\python.exe DATA\main.py
+   ```
 
-## 🚀 Running the Chatbot
+   It opens at [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
-### Web App (recommended)
-```bash
-python main.py
-```
-Opens at http://127.0.0.1:8000 automatically.
+   You can also double-click `run_chatbot.bat`; it always uses the project
+   `.conda` Python instead of Anaconda `base` or a global Python install.
 
-### Desktop GUI
-```bash
-python UI.py
+For terminal mode, run `.\.conda\python.exe DATA\main.py --cli`. For the desktop UI, run `.\.conda\python.exe DATA\UI.py`.
+
+## Commands
+
+| Command | Description |
+|---|---|
+| `/help` | Show commands |
+| `/ask <question>` | Ask the local Llama 3 model directly |
+| `/mood` | Show detected sentiment |
+| `/time`, `/date` | Show local time or date |
+| `/search <query>` | Open an explicitly requested web search |
+| `/analyze` | Analyze an upload with an optional Ollama vision model |
+| `/image <prompt>` | Explain the local text model's image-generation limitation |
+
+## Optional image analysis
+
+The installed `llama3` model is text-only. To analyze uploaded images, install an Ollama vision model and configure it:
+
+```powershell
+ollama pull llama3.2-vision
 ```
 
-### Terminal / CLI
-```bash
-python main.py --cli
+```dotenv
+OLLAMA_VISION_MODEL=llama3.2-vision
 ```
 
----
+Ollama language and vision models do not generate PNG files from text, so `/image` intentionally returns a clear explanation instead of calling a cloud service.
 
-## 💬 Available Commands
-
-| Command              | Description                        |
-|----------------------|------------------------------------|
-| `/help`              | Show all commands                  |
-| `/time`              | Show current time                  |
-| `/date`              | Show today's date                  |
-| `/ask <question>`    | Answer a question inside the chat  |
-| `/search <query>`    | Open a Google search               |
-| `/image <prompt>`    | Generate an image with Gemini AI   |
-| `/analyze`           | Upload & analyze an image          |
-| `/clear`             | Clear the chat history (web/UI)    |
-| `/save`              | Save chat to a .txt file (UI)      |
-| `bye`                | End the conversation               |
-
----
-
-## ✏️ Adding New Intents
-
-Edit `intents.json` — add a new block like this:
-
-```json
-{
-  "tag": "about_internship",
-  "patterns": [
-    "What is this project",
-    "Tell me about the chatbot",
-    "What did you build"
-  ],
-  "responses": [
-    "This is an NLP chatbot built during my internship using TensorFlow and Python!",
-    "It's an AI chatbot that understands natural language using a trained neural network."
-  ]
-}
-```
-
-Then retrain:
-```bash
-python main.py --train
-```
-
----
-
-## 🛠 Tech Stack
-
-- **Python 3.10+**
-- **TensorFlow / Keras** — neural network for intent classification
-- **NLTK** — tokenization and lemmatization
-- **Google Gemini API** — image generation & vision analysis
-- **Tkinter** — desktop UI
-- **Built-in HTTP server** — no Flask needed for the web app
-
----
-
-## 🔧 Troubleshooting
+## Troubleshooting
 
 | Problem | Fix |
-|---------|-----|
-| `ModuleNotFoundError` | Run `pip install -r requirements.txt` |
-| `No API key` | Set `GOOGLE_API_KEY`, `GEMINI_API_KEY`, or `APIM_KEY` in `.env` |
-| Model gives wrong answers | Add more patterns to `intents.json` and retrain |
-| `words.pkl` not found | Run `python main.py --train` |
-
----
-
-*Built for internship use — feel free to extend intents, style the UI, or deploy to a cloud server!*
+|---|---|
+| Ollama is not reachable | Start the Ollama application/service and confirm port `11434` is available |
+| Model not found | Run `ollama pull llama3`, or set `OLLAMA_MODEL` to an installed model |
+| Vision model not found | Run `ollama pull llama3.2-vision`, or set `OLLAMA_VISION_MODEL` |
+| Python module missing | Use `.\.conda\python.exe DATA\main.py`, or run `.\.conda\python.exe -m pip install -r requirements.txt` |
+| Intent model is stale | Run `.\.conda\python.exe DATA\main.py --train` |

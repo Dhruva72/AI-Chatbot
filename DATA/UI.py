@@ -2,11 +2,23 @@ import datetime as dt
 import threading
 import webbrowser
 from pathlib import Path
+
+try:
+    from project_env import ensure_project_python
+except ImportError:
+    from .project_env import ensure_project_python
+
+ensure_project_python()
+
 import tkinter as tk
 from tkinter import filedialog, messagebox, scrolledtext, ttk
 
-from ai_image_service import AIImageService
-from main import ChatbotEngine
+try:
+    from .ai_image_service import AIImageService
+    from .main import ChatbotEngine
+except ImportError:
+    from ai_image_service import AIImageService
+    from main import ChatbotEngine
 
 
 APP_DIR = Path(__file__).resolve().parent

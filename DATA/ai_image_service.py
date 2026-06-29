@@ -11,7 +11,10 @@ from typing import Any
 import requests
 from dotenv import load_dotenv
 
-from ollama_engine import OLLAMA_URL
+try:
+    from .ollama_engine import OLLAMA_URL
+except ImportError:
+    from ollama_engine import OLLAMA_URL
 
 DATA_DIR = Path(__file__).resolve().parent
 PROJECT_DIR = DATA_DIR.parent

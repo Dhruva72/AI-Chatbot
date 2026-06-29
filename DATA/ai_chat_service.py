@@ -1,10 +1,12 @@
 """Ollama-backed text chat service for fallback chatbot answers."""
 
 from __future__ import annotations
-
 from collections.abc import Callable
 
-from ollama_engine import OllamaError, generate_response
+try:
+    from .ollama_engine import OllamaError, generate_response
+except ImportError:
+    from ollama_engine import OllamaError, generate_response
 
 
 class AIChatServiceError(Exception):
@@ -12,7 +14,7 @@ class AIChatServiceError(Exception):
 
 
 class AIChatService:
-    """Add the chatbot's system context to local Ollama requests."""
+    """Add the chatbot system context to local Ollama requests."""
 
     def __init__(
         self,
@@ -22,9 +24,10 @@ class AIChatService:
 
     def answer(self, message: str, user_name: str = "User") -> str:
         intent_context = (
-            f"You are a helpful, friendly chatbot assistant. "
-            f"Answer clearly and directly in a sentence or two. "
-            f"User name: {user_name}"
+            "You are a helpful, knowledgeable assistant. "
+            "Answer the user's question thoroughly and completely. "
+            "Be clear and well-structured. "
+            "The user's name is " + user_name + "."
         )
 
         try:

@@ -28,11 +28,23 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
 
+try:
+    from project_env import ensure_project_python
+except ImportError:
+    from .project_env import ensure_project_python
+
+ensure_project_python()
+
 import nltk
 import numpy as np
 from nltk.stem import WordNetLemmatizer
-from ollama_engine import generate_response, build_context
-from sentiment_engine import SentimentAnalyzer, SentimentResult
+
+try:
+    from .ollama_engine import generate_response, build_context
+    from .sentiment_engine import SentimentAnalyzer, SentimentResult
+except ImportError:
+    from ollama_engine import generate_response, build_context
+    from sentiment_engine import SentimentAnalyzer, SentimentResult
 
 
 # ---------------------------------------------------------------------------
@@ -230,7 +242,10 @@ class ChatbotEngine:
 
     def get_ai_chat(self):
         if self._ai_chat is None:
-            from ai_chat_service import AIChatService
+            try:
+                from .ai_chat_service import AIChatService
+            except ImportError:
+                from ai_chat_service import AIChatService
             self._ai_chat = AIChatService()
         return self._ai_chat
 
@@ -505,5 +520,8 @@ if __name__ == "__main__":
     elif args.cli:
         interactive_chat()
     else:
-        from web_app import run_web_app
+        try:
+            from .web_app import run_web_app
+        except ImportError:
+            from web_app import run_web_app
         run_web_app(host=args.host, port=args.port, open_browser=not args.no_browser)

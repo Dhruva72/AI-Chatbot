@@ -27,7 +27,10 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlparse
 
-from ai_image_service import AIImageService, AIImageServiceError, GENERATED_IMAGES_DIR
+try:
+    from .ai_image_service import AIImageService, AIImageServiceError, GENERATED_IMAGES_DIR
+except ImportError:
+    from ai_image_service import AIImageService, AIImageServiceError, GENERATED_IMAGES_DIR
 
 APP_DIR  = Path(__file__).resolve().parent
 WEB_DIR  = APP_DIR / "web"
@@ -52,7 +55,10 @@ class WebChatApp:
         if self._engine is None:
             with self._engine_lock:
                 if self._engine is None:
-                    from main import ChatbotEngine
+                    try:
+                        from .main import ChatbotEngine
+                    except ImportError:
+                        from main import ChatbotEngine
                     self._engine = ChatbotEngine()
         return self._engine
 
